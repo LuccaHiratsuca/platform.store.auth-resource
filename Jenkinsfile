@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Build Account') {
+        stage('Build AUt') {
             steps {
                 build job: 'store.auth', wait: true
             }
@@ -14,7 +14,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    account = docker.build("luccahiratsuca/account:${env.BUILD_ID}", "-f Dockerfile .")
+                    account = docker.build("luccahiratsuca/auth:${env.BUILD_ID}", "-f Dockerfile .")
                 }
             }
         }
