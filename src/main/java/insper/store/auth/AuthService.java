@@ -4,6 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.CacheEvict;
+
 import insper.store.account.AccountController;
 import insper.store.account.AccountIn;
 import insper.store.account.AccountOut;
@@ -35,6 +39,7 @@ public class AuthService {
         return response.getBody().id();
     }
 
+    @Cacheable(value = "loginCache", key = "#email")
     public LoginOut authenticate(String email, String password) {
         ResponseEntity<AccountOut> response = accountController.login(LoginIn.builder()
             .email(email)
@@ -53,7 +58,8 @@ public class AuthService {
             .token(token)
             .build();
     }
-
+    
+    @Cacheable(value = "tokenCache", key = "#token")
     public Token solve(String token) {
         return jwtService.getToken(token);
     }
