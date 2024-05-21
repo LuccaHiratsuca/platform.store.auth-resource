@@ -1,9 +1,14 @@
 pipeline {
     agent any
     stages {
-        stage('Build AUt') {
+        stage('Build Auth') {
             steps {
                 build job: 'store.auth', wait: true
+            }
+        }
+        stage('Build Redis') {
+            steps {
+                build job: 'tech-emporium.redis', wait: true
             }
         }
         stage('Build') { 
