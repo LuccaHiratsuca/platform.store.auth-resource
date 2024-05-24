@@ -44,6 +44,11 @@
 			<optional>true</optional>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+		</dependency>
+
 		<!-- permite o registro em um servico de discovery -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

@@ -12,6 +12,7 @@ import insper.store.account.AccountController;
 import insper.store.account.AccountIn;
 import insper.store.account.AccountOut;
 import insper.store.account.LoginIn;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
 @Service
 public class AuthService {
@@ -39,6 +40,7 @@ public class AuthService {
         return response.getBody().id();
     }
 
+    @CircuitBreaker(name = "auth", fallbackMethod = "authenticateFallback")
     @Cacheable(value = "loginCache", key = "#email")
     public LoginOut authenticate(String email, String password) {
         ResponseEntity<AccountOut> response = accountController.login(LoginIn.builder()
@@ -58,10 +60,19 @@ public class AuthService {
             .token(token)
             .build();
     }
+
+    public LoginOut authenticateFallback(String email, String password, Throwable t) {
+        throw new IllegalArgumentException("Invalid credentials");
+    }
     
+    @CircuitBreaker(name = "auth", fallbackMethod = "solveFallback")
     @Cacheable(value = "tokenCache", key = "#token")
     public Token solve(String token) {
         return jwtService.getToken(token);
+    }
+
+    public Token solveFallback(String token, Throwable t) {
+        throw new IllegalArgumentException("Invalid token");
     }
     
 }
