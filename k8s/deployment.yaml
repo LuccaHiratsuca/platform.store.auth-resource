@@ -52,3 +52,14 @@ spec:
               value: "redis-service"  
             - name: REDIS_PORT
               value: "6379"  
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "health,info,prometheus"
+          volumeMounts:
+            - name: config-volume
+              mountPath: "/config"
+          volumes:
+            - name: config-volume
+              configMap:
+                name: auth-circuit-breaker-config
