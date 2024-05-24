@@ -38,6 +38,7 @@ pipeline {
                 withCredentials([ string(credentialsId: 'minikube_credentials', variable: 'api_token') ]) {
                     sh 'kubectl --token $api_token --server https://host.docker.internal:52764  --insecure-skip-tls-verify=true apply -f ./k8s/deployment.yaml '
                     sh 'kubectl --token $api_token --server https://host.docker.internal:52764  --insecure-skip-tls-verify=true apply -f ./k8s/service.yaml '
+                    sh 'kubectl --token $api_token --server https://host.docker.internal:52764  --insecure-skip-tls-verify=true apply -f ./k8s/configmap.yaml '
                 }
             }
         }
