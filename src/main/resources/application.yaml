@@ -7,7 +7,7 @@ management:
     web:
       base-path: /auth/actuator
       exposure:
-        include: [ 'prometheus' ]
+        include: ['*', 'prometheus']
 
 eureka:
   client:
